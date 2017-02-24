@@ -1,12 +1,13 @@
 {
-  "name": "hn-ml",
+  "name": "hackernews-cli",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^1.1.3",
     "cli-table2": "^0.2.0",
-    "colors": "^1.1.2",
     "micro": "^7.0.6",
+    "node-emoji": "^1.5.1",
     "node-fetch": "^1.6.3"
   }
 }
