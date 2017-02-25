@@ -19,16 +19,16 @@ const getStories = (ids) => {
   });
 };
 
-(async () => {
+exports.print = async keywords => {
 
-  const spinner = ora({text: 'Loading your stories', color: 'green'}).start();
+  const spinner = ora({ text: 'Loading your stories', color: 'green' }).start();
 
   try {
     const ids = await getNewStoriesIds();
     const stories = await Promise.all(getStories(ids));
     const filteredStories = stories
-      .filter(story => story !== null && story.url && SEARCH_WORDS.some(word => story.title.toLowerCase().includes(word)))
-      .map(story => ([story.title, story.url ]));
+      .filter(story => story !== null && story.url && keywords.some(word => story.title.toLowerCase().includes(word)))
+      .map(story => ([ story.title, story.url ]));
 
     spinner.stop();
 
@@ -46,4 +46,4 @@ const getStories = (ids) => {
     console.log(error.message);
   }
 
-})();
+};
