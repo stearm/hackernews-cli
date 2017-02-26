@@ -6,7 +6,6 @@ const ora = require('ora');
 
 const NEW_STORIES_URL = 'https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty';
 const ITEM_URL = (id) => `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`;
-const SEARCH_WORDS = [ 'a.i.', 'machine learning', 'neural networks', 'deep learning', 'nodejs', 'node.js', 'react', 'redux' ];
 
 const getNewStoriesIds = async () => {
   const response = await fetch(NEW_STORIES_URL);
@@ -27,7 +26,11 @@ exports.print = async keywords => {
     const ids = await getNewStoriesIds();
     const stories = await Promise.all(getStories(ids));
     const filteredStories = stories
-      .filter(story => story !== null && story.url && keywords.some(word => story.title.toLowerCase().includes(word)))
+      .filter(story => {
+        if (story === null && !story.url) return false;
+        if (!keywords.length) return true;
+        return keywords.some(word => story.title.toLowerCase().includes(word));
+      })
       .map(story => ([ story.title, story.url ]));
 
     spinner.stop();
