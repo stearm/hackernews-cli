@@ -35,15 +35,19 @@ exports.print = async keywords => {
 
     spinner.stop();
 
-    const table = new Table({
-      head: [ 'Title', 'Url' ],
-      colWidths: [ 75, 100 ]
-    });
+    if (filteredStories.length) {
+      const table = new Table({
+        head: [ 'Title', 'Url' ],
+        colWidths: [ 75, 100 ]
+      });
 
-    table.push(...filteredStories);
+      table.push(...filteredStories);
 
-    console.log(chalk.green.bold(`===== ${emoji.get('space_invader')}  ===== Hacker news stories ===== ${emoji.get('space_invader')}  ======`));
-    console.log(table.toString());
+      console.log(chalk.green.bold(`===== ${emoji.get('space_invader')}  ===== Hacker news stories ===== ${emoji.get('space_invader')}  ======`));
+      console.log(table.toString());
+    } else {
+      console.log(chalk.green.bold(`No stories found ${emoji.get('disappointed')}`))
+    }
 
   } catch (error) {
     console.log(error.message);
