@@ -41,7 +41,25 @@ program
 program.command('create <collection>')
   .description('Create a collection, use the following input string "collection_name=keyword1,keyword2,keyword3"')
   .action(command => {
-    // TODO
+
+    let collectionName, keywords;
+    const isValid = new RegExp(/([a-zA-Z0-9]+=)([a-zA-Z0-9]+,{0,1})+\w$/g).test(command);
+
+    try {
+
+      if (!isValid) {
+        throw new Error('Invalid input');
+      }
+
+      [ collectionName, keywords ] = command.split('=');
+      fs.writeFileSync(`${os.homedir()}/.hackernews-cli/${collectionName}`, keywords);
+      console.log(chalk.green.bold(`Collection ${command} created`))
+
+    } catch (error) {
+      console.log(chalk.red.bold(`Cannot write collection: ${error.message}`));
+      process.exit(1);
+    }
+
   });
 
 program.command('remove <collection>')
