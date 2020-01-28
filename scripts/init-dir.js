@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const os = require('os');
+const fs = require("fs");
+const os = require("os");
 
 const DIR_PATH = `${os.homedir()}/.hackernews-cli`;
 
