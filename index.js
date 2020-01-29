@@ -1,7 +1,6 @@
 const emoji = require("node-emoji");
 const fetch = require("node-fetch");
 const chalk = require("chalk");
-const Table = require("cli-table");
 const ora = require("ora");
 
 const NEW_STORIES_URL = "https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty";
@@ -35,24 +34,15 @@ exports.print = async keywords => {
       })
       .map(story => [story.title, story.url]);
 
-    const maxTitleUrl = Math.max(...filteredStories.map(story => story[0].length));
-    const maxLengthUrl = Math.max(...filteredStories.map(story => story[1].length));
-
     spinner.stop();
 
     if (filteredStories.length) {
-      const table = new Table({
-        head: ["Title", "Url"],
-        colWidths: [100, 50],
-        style: {
-          head: ["green"]
-        }
-      });
-
-      table.push(...filteredStories);
-
       console.log(HEADER);
-      console.log(table.toString());
+      filteredStories.forEach(([title, url], i) => {
+        console.log(chalk.green("------"));
+        console.log(chalk.bold(title));
+        console.log(url);
+      });
     } else {
       console.log(chalk.green.bold(`No stories found ${emoji.get("disappointed")}`));
     }
